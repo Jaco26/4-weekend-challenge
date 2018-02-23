@@ -6,19 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Gallery of my Life</title>
     <link rel="stylesheet" href="vendors/bootstrap.css">
-    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/style.css">
     <script src="vendors/angular.min.js"></script>
     <script src="scripts/client.js"></script>
 </head>
 <body ng-app="myGallery">
 
-    <section ng-controller="galleryController as vm">
-        <p>{{vm.blob}}</p>
+    <div class="container">
+        <section ng-controller="galleryController as vm">
+            
+            <div ng-repeat="image in vm.imagesArray" class="d-inline">
+                <img ng-src="{{image.url}}" height="600" width="400">
+                <p>{{image.synopsis}}</p>
+            </div>
+            
         
-    </section>
-    <!-- END galleryController -->
+        
+        </section>
+        <!-- END galleryController -->
+    </div>
+    <!-- END .container -->
     
-
     
 </body>
 </html>
