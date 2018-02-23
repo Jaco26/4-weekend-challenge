@@ -15,9 +15,9 @@
     <div class="container">
         <section ng-controller="galleryController as vm">
             
-            <div ng-repeat="image in vm.imagesArray" class="d-inline">
-                <img ng-src="{{image.url}}" height="600" width="400">
-                <p>{{image.synopsis}}</p>
+            <div class="col-md-3 " ng-repeat="image in vm.imagesArray">
+                <img class="col-12" ng-click="vm.clickclick(image)" ng-src="{{image.url}}">
+                <p class="col-12">{{image.synopsis}}</p>
             </div>
             
         

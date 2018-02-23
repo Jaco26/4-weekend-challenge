@@ -19,6 +19,9 @@ function galleryCtl($http){
         }); // END $http
     }; // END self.getImages
 
+    self.clickclick = function(image){
+        alert('CLICK CLICK '+  image.synopsis)
+    }
 
     // ON LOAD
     self.getImages(); 
