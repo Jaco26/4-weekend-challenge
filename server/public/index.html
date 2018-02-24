@@ -16,11 +16,23 @@
         <section ng-controller="galleryController as vm">
             
             <div class="col-md-3" ng-repeat="image in vm.imagesArray">
-                <img class="col-12" ng-click="vm.clickclick(image)" ng-src="{{image.url}}">
+                <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
                 <div class="col-12 pic-controls">
                     <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
                     <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
+                    <button ng-click="vm.commentClick(image)">Comment</button>
                 </div>
+                <div class="comment">
+                    <textarea ng-show="image.commenting" name="" id="" cols="30" rows="5"></textarea>
+
+                </div>
+                
+                <!-- <div class="display-comments">
+                    <ul>
+                        <li ng-repeat></li>
+                    </ul>
+                </div> -->
+                
                
             </div>
             

@@ -16,13 +16,14 @@ function galleryCtl($http){
             self.imagesArray = response.data
             for (let pic of self.imagesArray) {
                 pic.clicked = false;
+                pic.commenting = false;
             }
         }).catch(function(error){
             console.log(error);            
         }); // END $http
     }; // END self.getImages
 
-    self.clickclick = function(image){
+    self.imgClick = function(image){
         if(image.clicked === false){
             for (let pic of self.imagesArray) {
                 pic.clicked = false;
@@ -34,7 +35,6 @@ function galleryCtl($http){
     }
 
     self.likeClick = (image) => {
-
         image.up_votes++;
         $http({
             method: 'PUT',
@@ -45,8 +45,19 @@ function galleryCtl($http){
         }).catch(function(error){
             console.log(error);   
             image.up_votes--;
-        });
+        }); // END $http
     } // END self.likeClick
+
+    self.commentClick = (image) => {
+        if(image.commenting === false){
+            for(let pic of self.imagesArray){
+                pic.commenting = false;
+            }
+            image.commenting = true
+        } else {
+            image.commenting = false;
+        }
+    }
 
     // ON LOAD
     self.getImages(); 
