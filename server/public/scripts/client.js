@@ -4,9 +4,26 @@ const galleryController = app.controller('galleryController', ['$http', galleryC
 
 function galleryCtl($http){
     let self = this;
+
+    self.user = '';
+    
+     // // // // // // // // // // // 
+    // LOGIN FUNCTIONALITY // // // // 
+     // // // // // // // // // // // 
+    self.newUsername = '';
+    self.submitUsername = (username) => {
+
+    }
+
+    
+
+     // // // // // // // // // // // //
+    // ON PAGE FUNCTIONALITY // // // // 
+     // // // // // // // // // // // //
+    
     self.imagesArray = []; // This will hold the image objects that come back from the GET request in self.getImages
 
-    self.imgClick = function (image) {
+    self.imgClick = (image) => {
         if (image.clicked === false) {
             for (let pic of self.imagesArray) {
                 pic.clicked = false;
@@ -15,7 +32,21 @@ function galleryCtl($http){
         } else {
             image.clicked = false;
         }
-    }
+    } // END self.imgClick
+
+    self.likeClick = (image) => {
+        image.up_votes++;
+        $http({
+            method: 'PUT',
+            url: `/gallery/likes/${image.id}`,
+            data: { likes: image.up_votes }
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.error(error);
+            image.up_votes--;
+        }); // END $http
+    } // END self.likeClick
 
     self.commentBtnClick = (image) => {
         if (image.commenting === false) {
@@ -26,9 +57,24 @@ function galleryCtl($http){
         } else {
             image.commenting = false;
         }
-    }
+    } // END self.commentBtnClick
 
-    self.getImages = function(){
+    self.submitComment = (image) => {
+        console.log(image.newComment);
+
+        $http({
+            method: 'POST',
+            url: '/gallery/comment',
+            data: { newComment: image.newComment, id: image.id }
+        }).then(function (response) {
+            self.getImages();
+        }).catch(function (error) {
+            console.error(error);
+        }); // END $http
+        image.comment = ''; // clear the comment field
+    } // END self.submitComment
+
+    self.getImages = () => {
         $http({
             method: 'GET',
             url: '/gallery',
@@ -46,7 +92,7 @@ function galleryCtl($http){
         }); // END $http
     }; // END self.getImages
 
-    self.getComments = function(){
+    self.getComments = () => {
         $http({
             method: 'GET',
             url: '/gallery/comments'
@@ -63,41 +109,11 @@ function galleryCtl($http){
         }).catch(function(error){
             console.error(error);
         })
-    }
-
+    } // END self.getComments
     
-    self.likeClick = (image) => {
-        image.up_votes++;
-        $http({
-            method: 'PUT',
-            url: `/gallery/likes/${image.id}`,
-            data: {likes: image.up_votes}
-        }).then(function(response){
-            console.log(response);
-        }).catch(function(error){
-            console.error(error);   
-            image.up_votes--;
-        }); // END $http
-    } // END self.likeClick
-
-  
-    self.submitComment = (image) => {
-        console.log(image.newComment);
-        
-        $http({
-            method: 'POST',
-            url: '/gallery/comment',
-            data: {newComment: image.newComment, id: image.id}
-        }).then(function(response){
-            self.getImages();
-        }).catch(function(error){
-            console.error(error);
-        }); // END $http
-        image.comment = ''; // clear the comment field
-    } // END self.submitComment
-
-
-    // ON LOAD
+   
+     // // // // /
+    // ON LOAD //
     self.getImages(); 
 
 } // END galleryCtl

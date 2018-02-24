@@ -16,7 +16,10 @@
         <section ng-controller="galleryController as vm">
 
             <section ng-show="!vm.loggedIn">
-
+                <h1>Login</h1>
+                <label for="username">Add Username</label>
+                <input type="text" name="username" ng-model="vm.newUsername">
+                <button ng-click="vm.submitUsername(vm.newUsername)"></button>
             </section>
             
             <section ng-show="vm.loggedIn">
