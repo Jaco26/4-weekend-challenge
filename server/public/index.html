@@ -20,13 +20,14 @@
                 <div class="col-12 pic-controls">
                     <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
                     <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
-                    <button ng-click="vm.commentClick(image)">Comment</button>
+                    <button ng-click="vm.commentBtnClick(image)">Comment</button>
                 </div>
-                <div class="comment">
-                    <textarea ng-show="image.commenting" name="" id="" cols="30" rows="5"></textarea>
 
+                <div class="write-comment" ng-show="image.commenting">
+                    <textarea ng-model="image.comment" cols="30" rows="5"></textarea>
+                    <button ng-click="vm.submitComment(image)">Submit</button>
                 </div>
-                
+
                 <!-- <div class="display-comments">
                     <ul>
                         <li ng-repeat></li>
