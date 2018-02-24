@@ -23,11 +23,30 @@ function galleryCtl($http){
     }; // END self.getImages
 
     self.clickclick = function(image){
-        for(let pic of self.imagesArray){
-            pic.clicked = false;
+        if(image.clicked === false){
+            for (let pic of self.imagesArray) {
+                pic.clicked = false;
+            }
+            image.clicked = true;
+        } else {
+            image.clicked = false;
         }
-        image.clicked = true;
     }
+
+    self.likeClick = (image) => {
+
+        image.up_votes++;
+        $http({
+            method: 'PUT',
+            url: `/gallery/likes/${image.id}`,
+            data: {likes: image.up_votes}
+        }).then(function(response){
+            console.log(response);
+        }).catch(function(error){
+            console.log(error);   
+            image.up_votes--;
+        });
+    } // END self.likeClick
 
     // ON LOAD
     self.getImages(); 

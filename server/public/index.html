@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Gallery of my Life</title>
     <link rel="stylesheet" href="vendors/bootstrap.css">
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/style.css" type="text/css">
     <script src="vendors/angular.min.js"></script>
     <script src="scripts/client.js"></script>
 </head>
@@ -15,9 +15,13 @@
     <div class="container">
         <section ng-controller="galleryController as vm">
             
-            <div class="col-md-3 " ng-repeat="image in vm.imagesArray">
+            <div class="col-md-3" ng-repeat="image in vm.imagesArray">
                 <img class="col-12" ng-click="vm.clickclick(image)" ng-src="{{image.url}}">
-                <p class="col-12" ng-show="image.clicked">{{image.synopsis}}</p>
+                <div class="col-12 pic-controls">
+                    <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
+                    <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
+                </div>
+               
             </div>
             
         
