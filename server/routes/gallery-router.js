@@ -38,7 +38,9 @@ router.put('/likes/:id', (req, res) => {
 
 router.post('/comment', (req, res) => {
     const id = req.body.id;
-    const comment = req.body.comment;
+    const comment = req.body.newComment;
+    console.log('THIS IS THE NEW COMMENT', comment);
+    
     const sqlText = `INSERT INTO comments (comment) 
     VALUES ($1);`;
     pool.query(sqlText, [comment]).then(function(response){
@@ -54,7 +56,6 @@ function pictures_commentsINSERT(id, comment){
     const sqlText = `INSERT INTO pictures_comments (picture_id, comment_id)
     VALUES ($1, (SELECT id FROM comments WHERE comment=$2));`;
     pool.query(sqlText, [id, comment]).then(function(response){
-        res.sendStatus(200);
     }).catch(function(error){
         console.log('PROBLEM IN pictures_commentsINSERT', error);
     }); // END pool.query

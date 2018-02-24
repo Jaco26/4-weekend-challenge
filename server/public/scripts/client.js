@@ -33,14 +33,14 @@ function galleryCtl($http){
             method: 'GET',
             url: '/gallery',
         }).then(function(response){
-            console.log(response.data);
-            self.getComments();
             self.imagesArray = response.data
             for (let pic of self.imagesArray) {
                 pic.clicked = false;
                 pic.commenting = false;
-                pic.comment = '';
+                pic.newComment = '';
+                pic.allComments = [];
             }
+            self.getComments();
         }).catch(function(error){
             console.error(error);            
         }); // END $http
@@ -51,8 +51,15 @@ function galleryCtl($http){
             method: 'GET',
             url: '/gallery/comments'
         }).then(function(response){
-            console.log(response);
+            let result = response.data;
+            console.log('getComments result', result);
+            
             // get the response into self.imagesArray
+            for(let pic of self.imagesArray){
+                if(pic.id === result.picture_id){
+                    
+                }
+            }
         }).catch(function(error){
             console.error(error);
         })
@@ -75,10 +82,12 @@ function galleryCtl($http){
 
   
     self.submitComment = (image) => {
+        console.log(image.newComment);
+        
         $http({
             method: 'POST',
             url: '/gallery/comment',
-            data: {comment: image.comment, id: image.id}
+            data: {newComment: image.newComment, id: image.id}
         }).then(function(response){
             self.getImages();
         }).catch(function(error){
