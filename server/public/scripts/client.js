@@ -13,14 +13,20 @@ function galleryCtl($http){
             url: '/gallery',
         }).then(function(response){
             console.log(response.data);
-           self.imagesArray = response.data
+            self.imagesArray = response.data
+            for (let pic of self.imagesArray) {
+                pic.clicked = false;
+            }
         }).catch(function(error){
             console.log(error);            
         }); // END $http
     }; // END self.getImages
 
     self.clickclick = function(image){
-        alert('CLICK CLICK '+  image.synopsis)
+        for(let pic of self.imagesArray){
+            pic.clicked = false;
+        }
+        image.clicked = true;
     }
 
     // ON LOAD
