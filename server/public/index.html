@@ -14,32 +14,36 @@
 
     <div class="container">
         <section ng-controller="galleryController as vm">
-            
-            <div class="col-md-3" ng-repeat="image in vm.imagesArray">
-                <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
-                <div class="col-12 pic-controls">
-                    <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
-                    <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
-                    <button ng-click="vm.commentBtnClick(image)">Comment</button>
-                </div>
 
-                <div class="write-comment" ng-show="image.commenting">
-                    <textarea ng-model="image.newComment" cols="30" rows="5"></textarea>
-                    <button ng-click="vm.submitComment(image)">Submit</button>
-                </div>
+            <section ng-show="!vm.loggedIn">
 
-                <!-- <div class="display-comments">
-                    <ul>
-                        <li ng-repeat=""></li>
-                    </ul>
-                </div> -->
-                
-               
-            </div>
-            <!-- END ng-repeat image in vm.imagesArray -->
+            </section>
             
-        
-        
+            <section ng-show="vm.loggedIn">
+                <div class="col-md-3" ng-repeat="image in vm.imagesArray">
+                    <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
+                    <div class="col-12 pic-controls">
+                        <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
+                        <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
+                        <button ng-click="vm.commentBtnClick(image)">Comment</button>
+                    </div>
+
+                    <div class="write-comment" ng-show="image.commenting">
+                        <textarea ng-model="image.newComment" cols="30" rows="5"></textarea>
+                        <button ng-click="vm.submitComment(image)">Submit</button>
+                    </div>
+
+                    <!-- <div class="display-comments">
+                                    <ul>
+                                        <li ng-repeat=""></li>
+                                    </ul>
+                                </div> -->
+
+
+                </div>
+                <!-- END ng-repeat image in vm.imagesArray -->
+            </section>
+           
         </section>
         <!-- END galleryController -->
     </div>
