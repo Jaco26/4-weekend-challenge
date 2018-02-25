@@ -9,7 +9,7 @@ function galleryCtl($http){
     // // // // // // // // // // // 
     self.loggedIn = false;
     self.usersArray = []; // populate with sql query to users table
-    self.currentUser = {};
+    self.clientUser = {};
     self.serverCheckUser = {};
 
     self.getCurrentUser = () => {
@@ -19,12 +19,15 @@ function galleryCtl($http){
         }).then(function(response){
             self.serverCheckUser = response.data;
             console.log(self.serverCheckUser);
-            console.log(self.currentUser);
+            console.log(self.clientUser);
+            self.clientUser = response
             self.checkLogin();
         }).catch(function(error){
             console.log(error);            
         }); // END $http
     } // END self.getCurrentUser
+
+
 
     self.submitUsername = (username) => {
         $http({
@@ -99,15 +102,15 @@ function galleryCtl($http){
                 pic.clicked = false;
             }
             image.clicked = true;
-            image.viewCount++;
+            image.view_count++;
             $http({
                 method: 'PUT',
                 url: `gallery/view-count/${image.id}`,
-                data: {viewCount: image.viewCount}
+                data: {viewCount: image.view_count}
             }).then(function(response){
             }).catch(function(error){
                 console.log(error);
-                image.viewCount--;
+                image.view_count--;
             }); // END $http
         } else {
             image.clicked = false;
@@ -165,8 +168,9 @@ function galleryCtl($http){
                 pic.commenting = false;
                 pic.newComment = '';
                 pic.allComments = [];
-                pic.viewCount = 0;
             }
+            console.log(self.imagesArray);
+            
             self.getComments();
         }).catch(function(error){
             console.error(error);            

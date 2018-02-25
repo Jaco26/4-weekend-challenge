@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-jq="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Gallery of my Life</title>
     <link rel="stylesheet" href="vendors/bootstrap.css">
-    <link rel="stylesheet" href="styles/style.css" type="text/css">
+    <!-- <link rel="stylesheet" href="styles/style.css" type="text/css"> -->
     <script src="vendors/angular.min.js"></script>
     <script src="scripts/client.js"></script>
 </head>
@@ -15,15 +15,14 @@
     <div class="container">
         <section ng-controller="galleryController as vm">
           
-           
-           <div class="row" ng-show="!vm.loggedIn">
-                <section >
+           <div ng-show="!vm.loggedIn">
+                <section>
                     <h1>Login</h1>
                     <label for="username">Add Username</label>
                     <input type="text" name="username" ng-model="vm.newUsername">
                     <button class="btn btn-light" ng-click="vm.submitUsername(vm.newUsername)">Log in</button>
-
-                    <select ng-model="vm.currentUser">
+                    <label for="user-select">Who are you?</label>
+                    <select ng-model="vm.currentUser" id="user-select">
                         <option ng-value="user" ng-repeat="user in vm.usersArray">{{user.username}}</option>
                     </select>
                     <button class="btn btn-dark" ng-click="vm.login(vm.currentUser)">Submit</button>
@@ -32,39 +31,41 @@
                 <!-- END login page -->
            </div>
            
-           <div class="row" ng-show="vm.loggedIn">
-                <div class="row">
-                    <button class="btn btn-dark" ng-click="vm.logout()">Log out</button>
-                </div>
+           <div ng-show="vm.loggedIn">
+                <nav class="navbar navbar-light bg-dark">
+                    <h1 class="text-white">Hello {{vm.serverCheckUser.username}}</h1>
+                    <button class="btn btn-light" ng-click="vm.logout()">Log out</button>
+                    
+                </nav>
                 <!-- END .row -->
-                <div class="row">
-                    <div class="col-md-6" ng-repeat="image in vm.imagesArray">
+                <div class="row mt-2">
+                    <div class="col-md-4 mr-5" ng-repeat="image in vm.imagesArray">
                         <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
                         <div class="col-12 pic-controls">
                             <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
                             <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
                             <button ng-click="vm.commentBtnClick(image)">Comment</button>
-                            <p>{{image.viewCount}}</p>
+                            <p>Views {{image.view_count}}</p>
                         </div>
-            
-                        <div class="write-comment" ng-show="image.commenting">
-                            <textarea ng-model="image.newComment" cols="25" rows="3"></textarea>
+                        
+                        <div ng-show="image.commenting">
+                            <textarea ng-model="image.newComment" cols="20" rows="1"></textarea>
                             <button ng-click="vm.submitComment(image)">Submit</button>
                         </div>
-            
+                        
                         <div class="display-comments">
                             <ul class="list-unstyled">
                                 <li ng-repeat="comment in image.allComments">
                                     <strong>{{comment.username}}:</strong> {{comment.comment}}
                                 </li>
                             </ul>
-                        </div>
+                        </div>       
                     </div>
                     <!-- END ng-repeat image in vm.imagesArray -->
                 </div>
                 <!-- END .row -->
            </div>
-           <!-- END logged in page / .row -->
+           <!-- END logged in page -->
         </section>
         <!-- END galleryController -->
     </div>
@@ -73,3 +74,13 @@
     
 </body>
 </html>
+
+<!-- 
+<div class="row">
+    <div ng-repeat="product in products">
+        <div class="clearfix" ng-if="$index % 3 == 0"></div>
+        <div class="col-sm-4">
+            <h2>{{product.title}}</h2>
+        </div>
+    </div>
+</div> -->

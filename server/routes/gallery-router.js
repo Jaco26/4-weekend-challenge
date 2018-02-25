@@ -54,13 +54,13 @@ router.post('/comment', (req, res) => {
     const comment = req.body.comment;
     const user_id = req.body.user_id;
     console.log('THIS IS THE NEW COMMENT', comment);
-    const sqlText = `INSERT INTO comments (comment, user_id) 
-    VALUES ($1, $2);`;
-    pool.query(sqlText, [comment, user_id]).then(function(response){
+    const sqlText = `INSERT INTO comments (comment) 
+    VALUES ($1);`;
+    pool.query(sqlText, [comment]).then(function(response){
         pictures_commentsINSERT(picture_id, user_id);
         res.sendStatus(200)
     }).catch(function(error){
-        console.log('PROBLEM IN ROUTER.POST /GALLERY/COMMENT');
+        console.log('PROBLEM IN ROUTER.POST /GALLERY/COMMENT', error);
         res.sendStatus(500);
     }); // END pool.query
 }); // END router /gallery/comment POST
