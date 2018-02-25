@@ -9,25 +9,28 @@ function galleryCtl($http){
     // // // // // // // // // // // 
     self.loggedIn = false;
     self.usersArray = []; // populate with sql query to users table
-    self.clientUser = {};
-    self.serverCheckUser = {};
 
-    self.getCurrentUser = () => {
-        $http({
-            method: 'GET',
-            url: '/login/current-user'
-        }).then(function(response){
-            self.serverCheckUser = response.data;
-            console.log(self.serverCheckUser);
-            console.log(self.clientUser);
-            self.clientUser = response
-            self.checkLogin();
-        }).catch(function(error){
-            console.log(error);            
-        }); // END $http
-    } // END self.getCurrentUser
+    self.currentUser = {};
 
-
+    // self.getCurrentUser = () => {
+    //     $http({
+    //         method: 'GET',
+    //         url: '/login/current-user'
+    //     }).then(function(response){
+    //         console.log(response);
+    //         if(response.data === 'user not found'){
+    //             console.log('WOWOW');
+    //             self.currentUser = {}
+    //         } else {
+    //             self.currentUser = response.data;
+    //             console.log(self.currentUser);
+    //             self.clientUser = response
+    //             self.checkLogin();
+    //         }
+    //     }).catch(function(error){
+    //         console.log(error);            
+    //     }); // END $http
+    // } // END self.getCurrentUser
 
     self.submitUsername = (username) => {
         $http({
@@ -49,29 +52,21 @@ function galleryCtl($http){
         }).then(function (response) {
             self.usersArray = response.data.rows;
             console.log(self.usersArray);
-            
         }).catch(function (error) {
             console.log(error);
         }); // END $http
     } // END self.getUsers
 
-    self.login = (currentUser) => {
-        console.log(currentUser);
-        $http({
-            method: 'POST',
-            url: '/login/current-user',
-            data: {currentUser: currentUser}
-        }).then(function(response){
-            console.log(self.currentUser);
-            console.log('getting current user');
-            self.getCurrentUser();
-        }).catch(function(error){
-            console.error(error);
-        }); // END $http
+    self.login = () => {
+        if (self.currentUser.usernameg) {
+            self.loggedIn = true;
+        } else {
+            self.loggedIn = false;
+        }
     } // END self.login
 
-    self.checkLogin = () => {
-        if (self.serverCheckUser.username) {
+    self.checkLogin = (currentUser) => {
+        if (currentUser) {
             self.loggedIn = true;
         } else {
             self.loggedIn = false;
@@ -79,15 +74,8 @@ function galleryCtl($http){
     }
 
     self.logout = () => {
-        $http({
-            method: 'PUT',
-            url: '/login/current-user'
-        }).then(function(response) {
-            self.getCurrentUser()
-            self.checkLogin();
-        }).catch(function(error){
-            console.log(error); 
-        }); // END $http
+        self.currentUser = {};
+        self.checkLogin(self.currentUser.username);
     } // END self.logout
 
      // // // // // // // // // // // //
@@ -200,7 +188,7 @@ function galleryCtl($http){
      // // // // /
     // ON LOAD //
     self.getUsers();
-    self.getCurrentUser();
+    //self.getCurrentUser();
     self.getImages(); 
    
     

@@ -25,7 +25,7 @@
                     <select ng-model="vm.currentUser" id="user-select">
                         <option ng-value="user" ng-repeat="user in vm.usersArray">{{user.username}}</option>
                     </select>
-                    <button class="btn btn-dark" ng-click="vm.login(vm.currentUser)">Submit</button>
+                    <button class="btn btn-dark" ng-click="vm.login()">Submit</button>
 
                 </section>
                 <!-- END login page -->
@@ -33,7 +33,7 @@
            
            <div ng-show="vm.loggedIn">
                 <nav class="navbar navbar-light bg-dark">
-                    <h1 class="text-white">Hello {{vm.serverCheckUser.username}}</h1>
+                    <h1 class="text-white">Hello {{vm.currentUser.username}}</h1>
                     <button class="btn btn-light" ng-click="vm.logout()">Log out</button>
                     
                 </nav>
