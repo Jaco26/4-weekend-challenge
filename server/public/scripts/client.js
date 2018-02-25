@@ -1,24 +1,49 @@
 const app = angular.module('myGallery', []);
 
 const galleryController = app.controller('galleryController', ['$http', galleryCtl]);
-
 function galleryCtl($http){
     let self = this;
 
-    self.user = '';
-    
-     // // // // // // // // // // // 
+    // // // // // // // // // // // 
     // LOGIN FUNCTIONALITY // // // // 
-     // // // // // // // // // // // 
-    self.newUsername = '';
-    self.submitUsername = (username) => {
+    // // // // // // // // // // // 
+    self.loggedIn = false;
+    self.usersArray = []; // populate with sql query to users table
+    self.currentUser = {};
 
+    self.submitUsername = (username) => {
+        $http({
+            method: 'POST',
+            url: '/login/new-user',
+            data: { username: username }
+        }).then(function (response) {
+            //self.getUsers();
+        }).catch(function (error) {
+            console.log(error);
+        }); // END $http
+        self.newUsername = '';
+    } // END self.submitUsername
+
+    self.getUsers = () => {
+        $http({
+            method: 'GET',
+            url: '/login/users',
+        }).then(function (response) {
+            self.usersArray = response.data.rows;
+            console.log(self.usersArray);
+        }).catch(function (error) {
+            console.log(error);
+        }); // END $http
+    } // END self.getUsers
+
+    self.login = () => {
+        console.log(self.currentUser);
+        self.loggedIn = true;
     }
 
-    
 
      // // // // // // // // // // // //
-    // ON PAGE FUNCTIONALITY // // // // 
+    // ON-PAGE FUNCTIONALITY // // // // 
      // // // // // // // // // // // //
     
     self.imagesArray = []; // This will hold the image objects that come back from the GET request in self.getImages
@@ -61,11 +86,10 @@ function galleryCtl($http){
 
     self.submitComment = (image) => {
         console.log(image.newComment);
-
         $http({
             method: 'POST',
             url: '/gallery/comment',
-            data: { newComment: image.newComment, id: image.id }
+            data: { comment: image.newComment, picture_id: image.id, user_id: self.currentUser.id }
         }).then(function (response) {
             self.getImages();
         }).catch(function (error) {
@@ -98,8 +122,7 @@ function galleryCtl($http){
             url: '/gallery/comments'
         }).then(function(response){
             let result = response.data;
-            console.log('getComments result', result);
-            
+            //console.log('getComments result', result);
             // get the response into self.imagesArray
             for(let pic of self.imagesArray){
                 if(pic.id === result.picture_id){
@@ -110,10 +133,16 @@ function galleryCtl($http){
             console.error(error);
         })
     } // END self.getComments
-    
    
      // // // // /
     // ON LOAD //
+    self.getUsers();
     self.getImages(); 
-
+    
+     
 } // END galleryCtl
+
+
+
+
+

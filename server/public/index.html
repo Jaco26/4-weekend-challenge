@@ -19,9 +19,19 @@
                 <h1>Login</h1>
                 <label for="username">Add Username</label>
                 <input type="text" name="username" ng-model="vm.newUsername">
-                <button ng-click="vm.submitUsername(vm.newUsername)"></button>
+                <button class="btn btn-light" ng-click="vm.submitUsername(vm.newUsername)">Log in</button>
+
+                <select ng-model="vm.currentUser">
+                    <option ng-value="user" ng-repeat="user in vm.usersArray">{{user.username}}</option>
+                </select>
+                <button class="btn btn-dark" ng-click="vm.login()">Submit</button>
+
+
             </section>
-            
+            <!-- END login page -->
+ 
+        
+        
             <section ng-show="vm.loggedIn">
                 <div class="col-md-3" ng-repeat="image in vm.imagesArray">
                     <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
@@ -37,16 +47,14 @@
                     </div>
 
                     <!-- <div class="display-comments">
-                                    <ul>
-                                        <li ng-repeat=""></li>
-                                    </ul>
-                                </div> -->
-
-
+                        <ul>
+                            <li ng-repeat=""></li>
+                        </ul>
+                    </div> -->
                 </div>
                 <!-- END ng-repeat image in vm.imagesArray -->
             </section>
-           
+            <!-- END logged in page -->
         </section>
         <!-- END galleryController -->
     </div>

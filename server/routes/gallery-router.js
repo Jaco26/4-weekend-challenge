@@ -37,14 +37,14 @@ router.put('/likes/:id', (req, res) => {
 }); // END router /gallery/likes PUT
 
 router.post('/comment', (req, res) => {
-    const id = req.body.id;
-    const comment = req.body.newComment;
+    const picture_id = req.body.picture_id;
+    const comment = req.body.comment;
+    const user_id = req.body.user_id;
     console.log('THIS IS THE NEW COMMENT', comment);
-    
     const sqlText = `INSERT INTO comments (comment) 
     VALUES ($1);`;
     pool.query(sqlText, [comment]).then(function(response){
-        pictures_commentsINSERT(id, comment)
+        pictures_commentsINSERT(picture_id, comment, user_id);
         res.sendStatus(200)
     }).catch(function(error){
         console.log('PROBLEM IN ROUTER.POST /GALLERY/COMMENT');
@@ -52,14 +52,16 @@ router.post('/comment', (req, res) => {
     }); // END pool.query
 }); // END router /gallery/comment POST
 
-function pictures_commentsINSERT(id, comment){
-    const sqlText = `INSERT INTO pictures_comments (picture_id, comment_id)
-    VALUES ($1, (SELECT id FROM comments WHERE comment=$2));`;
-    pool.query(sqlText, [id, comment]).then(function(response){
+function pictures_commentsINSERT(picture_id, comment, user_id){
+    const sqlText = `INSERT INTO pictures_comments (picture_id, comment_id, user_id)
+    VALUES ($1, (SELECT id FROM comments WHERE comment=$2), $3);`;
+    pool.query(sqlText, [picture_id, comment, user_id]).then(function(response){
     }).catch(function(error){
         console.log('PROBLEM IN pictures_commentsINSERT', error);
     }); // END pool.query
 } // END pictures_commentsINSERT
+
+
 
 
 
