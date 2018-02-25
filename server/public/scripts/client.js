@@ -40,7 +40,6 @@ function galleryCtl($http){
         self.loggedIn = true;
     } // END self.login
 
-
      // // // // // // // // // // // //
     // ON-PAGE FUNCTIONALITY // // // // 
      // // // // // // // // // // // //
@@ -90,7 +89,7 @@ function galleryCtl($http){
             url: '/gallery/comment',
             data: { comment: image.newComment, picture_id: image.id, user_id: self.currentUser.id }
         }).then(function (response) {
-            self.getImages();
+            self.getComments();
         }).catch(function (error) {
             console.error(error);
         }); // END $http
@@ -110,6 +109,7 @@ function galleryCtl($http){
                 pic.allComments = [];
             }
             self.getComments();
+            console.log(self.imagesArray);
         }).catch(function(error){
             console.error(error);            
         }); // END $http
@@ -121,11 +121,14 @@ function galleryCtl($http){
             url: '/gallery/comments'
         }).then(function(response){
             let result = response.data;
-            for(let i = 0; i < self.imagesArray.length; i++){
+            for (let i = 0; i < self.imagesArray.length; i++){
                 let pic = self.imagesArray[i]
-                if(pic.id === result[i].picture_id){
-                    pic.allComments.push(result[i])
-                }
+                pic.allComments = [];
+                for(let i = 0; i < result.length; i++){
+                    if (pic.id === result[i].picture_id) {
+                        pic.allComments.push(result[i])
+                    }
+                }    
             }
         }).catch(function(error){
             console.error(error);
