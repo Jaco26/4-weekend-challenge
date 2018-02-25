@@ -10,6 +10,21 @@ function galleryCtl($http){
     self.loggedIn = false;
     self.usersArray = []; // populate with sql query to users table
     self.currentUser = {};
+    self.serverCheckUser = {};
+
+    self.getCurrentUser = () => {
+        $http({
+            method: 'GET',
+            url: '/login/current-user'
+        }).then(function(response){
+            self.serverCheckUser = response.data;
+            console.log(self.serverCheckUser);
+            console.log(self.currentUser);
+            self.checkLogin();
+        }).catch(function(error){
+            console.log(error);            
+        }); // END $http
+    } // END self.getCurrentUser
 
     self.submitUsername = (username) => {
         $http({
@@ -30,18 +45,47 @@ function galleryCtl($http){
             url: '/login/users',
         }).then(function (response) {
             self.usersArray = response.data.rows;
+            console.log(self.usersArray);
+            
         }).catch(function (error) {
             console.log(error);
         }); // END $http
     } // END self.getUsers
 
-    self.login = () => {
-        if(!self.currentUser.username){
-            alert('Whoa! Who are you again?? AND BE HONEST! I havn\'t learned passwords yet...');
-        } else {
-            self.loggedIn = true;
-        }
+    self.login = (currentUser) => {
+        console.log(currentUser);
+        $http({
+            method: 'POST',
+            url: '/login/current-user',
+            data: {currentUser: currentUser}
+        }).then(function(response){
+            console.log(self.currentUser);
+            console.log('getting current user');
+            self.getCurrentUser();
+        }).catch(function(error){
+            console.error(error);
+        }); // END $http
     } // END self.login
+
+    self.checkLogin = () => {
+        if (self.serverCheckUser.username) {
+            self.loggedIn = true;
+        } else {
+            self.loggedIn = false;
+        }
+    }
+
+    self.logout = () => {
+        $http({
+            method: 'PUT',
+            url: '/login/current-user'
+        }).then(function(response) {
+            self.getCurrentUser()
+            self.checkLogin();
+        }).catch(function(error){
+            console.log(error); 
+        }); // END $http
+    } // END self.logout
 
      // // // // // // // // // // // //
     // ON-PAGE FUNCTIONALITY // // // // 
@@ -141,7 +185,9 @@ function galleryCtl($http){
      // // // // /
     // ON LOAD //
     self.getUsers();
+    self.getCurrentUser();
     self.getImages(); 
+   
     
      
 } // END galleryCtl

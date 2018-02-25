@@ -2,6 +2,24 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../modules/pool');
 
+let currentUser = {};
+
+router.post('/current-user', (req, res) => {
+    currentUser = req.body.currentUser;
+    console.log(currentUser);
+    res.sendStatus(200);
+});
+
+router.get('/current-user', (req, res) => {
+    res.send(currentUser);
+});
+
+router.put('/current-user', (req, res) => {
+    currentUser = {};
+    res.sendStatus(200);
+}); 
+
+
 router.get('/users', (req, res) => {
     const sqlText = `SELECT * FROM users ORDER BY id;`;
     pool.query(sqlText).then(function(response){
