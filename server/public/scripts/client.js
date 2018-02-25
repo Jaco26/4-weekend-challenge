@@ -17,7 +17,7 @@ function galleryCtl($http){
             url: '/login/new-user',
             data: { username: username }
         }).then(function (response) {
-            //self.getUsers();
+            self.getUsers();
         }).catch(function (error) {
             console.log(error);
         }); // END $http
@@ -39,7 +39,7 @@ function galleryCtl($http){
     self.login = () => {
         console.log(self.currentUser);
         self.loggedIn = true;
-    }
+    } // END self.login
 
 
      // // // // // // // // // // // //
@@ -122,13 +122,14 @@ function galleryCtl($http){
             url: '/gallery/comments'
         }).then(function(response){
             let result = response.data;
-            //console.log('getComments result', result);
+            console.log('getComments result', result);
             // get the response into self.imagesArray
-            for(let pic of self.imagesArray){
-                if(pic.id === result.picture_id){
-                    
-                }
-            }
+            // for(let pic of self.imagesArray){
+            //     if(pic.id === result.picture_id){
+            //         pic.comments = [];
+
+            //     }
+            // }
         }).catch(function(error){
             console.error(error);
         })

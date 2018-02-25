@@ -14,8 +14,9 @@ router.get('/', (req, res) => {
 }); // END router /gallery GET
 
 router.get('/comments', (req, res) => {
-    const sqlText = ` SELECT comment_id, picture_id, comment FROM comments 
- 	JOIN pictures_comments ON comments.id = pictures_comments.comment_id;`;
+    const sqlText = ` SELECT comment_id, picture_id, users.username, comment FROM comments 
+     JOIN pictures_comments ON comments.id = pictures_comments.comment_id 
+     JOIN users ON users.id = pictures_comments.user_id;`;
     pool.query(sqlText).then(function(response){
         res.send(response.rows);
     }).catch(function(error){

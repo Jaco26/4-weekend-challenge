@@ -29,8 +29,6 @@
 
             </section>
             <!-- END login page -->
- 
-        
         
             <section ng-show="vm.loggedIn">
                 <div class="col-md-3" ng-repeat="image in vm.imagesArray">
@@ -46,11 +44,11 @@
                         <button ng-click="vm.submitComment(image)">Submit</button>
                     </div>
 
-                    <!-- <div class="display-comments">
+                    <div class="display-comments">
                         <ul>
-                            <li ng-repeat=""></li>
+                            <!-- <li ng-repeat=""></li> -->
                         </ul>
-                    </div> -->
+                    </div>
                 </div>
                 <!-- END ng-repeat image in vm.imagesArray -->
             </section>
