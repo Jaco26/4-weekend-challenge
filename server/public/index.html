@@ -33,40 +33,38 @@
            </div>
            
            <div class="row" ng-show="vm.loggedIn">
-
                 <div class="row">
                     <button class="btn btn-dark" ng-click="vm.logout()">Log out</button>
                 </div>
-
-                <section >
-                    <div class="row">
-                        <div class="col-md-6" ng-repeat="image in vm.imagesArray">
-                            <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
-                            <div class="col-12 pic-controls">
-                                <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
-                                <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
-                                <button ng-click="vm.commentBtnClick(image)">Comment</button>
-                            </div>
-                
-                            <div class="write-comment" ng-show="image.commenting">
-                                <textarea ng-model="image.newComment" cols="25" rows="3"></textarea>
-                                <button ng-click="vm.submitComment(image)">Submit</button>
-                            </div>
-                
-                            <div class="display-comments">
-                                <ul class="list-unstyled">
-                                    <li ng-repeat="comment in image.allComments">
-                                        <strong>{{comment.username}}:</strong> {{comment.comment}}</li>
-                                </ul>
-                            </div>
+                <!-- END .row -->
+                <div class="row">
+                    <div class="col-md-6" ng-repeat="image in vm.imagesArray">
+                        <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
+                        <div class="col-12 pic-controls">
+                            <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
+                            <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
+                            <button ng-click="vm.commentBtnClick(image)">Comment</button>
+                            <p>{{image.viewCount}}</p>
                         </div>
-                        <!-- END ng-repeat image in vm.imagesArray -->
-                    </div>
-                
-                </section>
-                <!-- END logged in page -->
-           </div>
             
+                        <div class="write-comment" ng-show="image.commenting">
+                            <textarea ng-model="image.newComment" cols="25" rows="3"></textarea>
+                            <button ng-click="vm.submitComment(image)">Submit</button>
+                        </div>
+            
+                        <div class="display-comments">
+                            <ul class="list-unstyled">
+                                <li ng-repeat="comment in image.allComments">
+                                    <strong>{{comment.username}}:</strong> {{comment.comment}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- END ng-repeat image in vm.imagesArray -->
+                </div>
+                <!-- END .row -->
+           </div>
+           <!-- END logged in page / .row -->
         </section>
         <!-- END galleryController -->
     </div>

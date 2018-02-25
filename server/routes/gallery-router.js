@@ -14,9 +14,9 @@ router.get('/', (req, res) => {
 }); // END router /gallery GET
 
 router.get('/comments', (req, res) => {
-    const sqlText = ` SELECT comment_id, picture_id, users.username, comments.user_id, comment FROM comments 
-     JOIN pictures_comments ON comments.id = pictures_comments.comment_id 
-     JOIN users ON users.id = pictures_comments.user_id;`;
+    const sqlText = ` SELECT comment_id, picture_id, users.username, users.id, comment FROM comments 
+     JOIN pictures_comments_users ON comments.id = pictures_comments_users.comment_id 
+     JOIN users ON users.id = pictures_comments_users.user_id;`;
     pool.query(sqlText).then(function(response){
         res.send(response.rows);
     }).catch(function(error){
@@ -37,6 +37,18 @@ router.put('/likes/:id', (req, res) => {
     }); // END pool.query
 }); // END router /gallery/likes PUT
 
+router.put('/view-count/:id', (req, res) => {
+    const id = req.params.id;
+    const viewCount = req.body.viewCount;
+    const sqlText = `UPDATE pictures SET view_count = $1 WHERE id=$2;`;
+    pool.query(sqlText, [viewCount, id]).then(function(response){
+        res.sendStatus(200);
+    }).catch(function(error){
+        console.log('PROBLEM IN ROUTER.PUT /GALLERY/VIEW-COUNT/:ID', error);
+        res.sendStatus(500);
+    }); // END pool.query
+}); // END router gallery/view-count/:id PUT
+
 router.post('/comment', (req, res) => {
     const picture_id = req.body.picture_id;
     const comment = req.body.comment;
@@ -54,7 +66,7 @@ router.post('/comment', (req, res) => {
 }); // END router /gallery/comment POST
 
 function pictures_commentsINSERT(picture_id, user_id){
-    const sqlText = `INSERT INTO pictures_comments (picture_id, comment_id, user_id)
+    const sqlText = `INSERT INTO pictures_comments_users (picture_id, comment_id, user_id)
     VALUES ($1, (SELECT MAX(id) FROM comments), $2);`;
     pool.query(sqlText, [picture_id, user_id]).then(function(response){
     }).catch(function(error){

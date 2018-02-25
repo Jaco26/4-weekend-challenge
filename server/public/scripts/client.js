@@ -99,6 +99,16 @@ function galleryCtl($http){
                 pic.clicked = false;
             }
             image.clicked = true;
+            image.viewCount++;
+            $http({
+                method: 'PUT',
+                url: `gallery/view-count/${image.id}`,
+                data: {viewCount: image.viewCount}
+            }).then(function(response){
+            }).catch(function(error){
+                console.log(error);
+                image.viewCount--;
+            }); // END $http
         } else {
             image.clicked = false;
         }
@@ -155,6 +165,7 @@ function galleryCtl($http){
                 pic.commenting = false;
                 pic.newComment = '';
                 pic.allComments = [];
+                pic.viewCount = 0;
             }
             self.getComments();
         }).catch(function(error){
@@ -168,8 +179,6 @@ function galleryCtl($http){
             url: '/gallery/comments'
         }).then(function(response){
             let result = response.data;
-            console.log(result);
-            
             for (let i = 0; i < self.imagesArray.length; i++){
                 let pic = self.imagesArray[i]
                 pic.allComments = [];
