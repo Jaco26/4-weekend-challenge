@@ -36,8 +36,11 @@ function galleryCtl($http){
     } // END self.getUsers
 
     self.login = () => {
-        console.log(self.currentUser);
-        self.loggedIn = true;
+        if(!self.currentUser.username){
+            alert('Whoa! Who are you again?? AND BE HONEST! I havn\'t learned passwords yet...');
+        } else {
+            self.loggedIn = true;
+        }
     } // END self.login
 
      // // // // // // // // // // // //
@@ -90,10 +93,11 @@ function galleryCtl($http){
             data: { comment: image.newComment, picture_id: image.id, user_id: self.currentUser.id }
         }).then(function (response) {
             self.getComments();
+            image.newComment = ''; // clear the comment field
         }).catch(function (error) {
             console.error(error);
         }); // END $http
-        image.comment = ''; // clear the comment field
+        
     } // END self.submitComment
 
     self.getImages = () => {
@@ -109,7 +113,6 @@ function galleryCtl($http){
                 pic.allComments = [];
             }
             self.getComments();
-            console.log(self.imagesArray);
         }).catch(function(error){
             console.error(error);            
         }); // END $http
