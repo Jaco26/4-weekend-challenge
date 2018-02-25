@@ -30,7 +30,6 @@ function galleryCtl($http){
             url: '/login/users',
         }).then(function (response) {
             self.usersArray = response.data.rows;
-            console.log(self.usersArray);
         }).catch(function (error) {
             console.log(error);
         }); // END $http
@@ -122,14 +121,12 @@ function galleryCtl($http){
             url: '/gallery/comments'
         }).then(function(response){
             let result = response.data;
-            console.log('getComments result', result);
-            // get the response into self.imagesArray
-            // for(let pic of self.imagesArray){
-            //     if(pic.id === result.picture_id){
-            //         pic.comments = [];
-
-            //     }
-            // }
+            for(let i = 0; i < self.imagesArray.length; i++){
+                let pic = self.imagesArray[i]
+                if(pic.id === result[i].picture_id){
+                    pic.allComments.push(result[i])
+                }
+            }
         }).catch(function(error){
             console.error(error);
         })
