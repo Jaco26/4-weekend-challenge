@@ -168,6 +168,8 @@ function galleryCtl($http){
             url: '/gallery/comments'
         }).then(function(response){
             let result = response.data;
+            console.log(result);
+            
             for (let i = 0; i < self.imagesArray.length; i++){
                 let pic = self.imagesArray[i]
                 pic.allComments = [];

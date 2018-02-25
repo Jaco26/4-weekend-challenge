@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 }); // END router /gallery GET
 
 router.get('/comments', (req, res) => {
-    const sqlText = ` SELECT comment_id, picture_id, users.username, user_id, comment FROM comments 
+    const sqlText = ` SELECT comment_id, picture_id, users.username, comments.user_id, comment FROM comments 
      JOIN pictures_comments ON comments.id = pictures_comments.comment_id 
      JOIN users ON users.id = pictures_comments.user_id;`;
     pool.query(sqlText).then(function(response){
@@ -42,10 +42,10 @@ router.post('/comment', (req, res) => {
     const comment = req.body.comment;
     const user_id = req.body.user_id;
     console.log('THIS IS THE NEW COMMENT', comment);
-    const sqlText = `INSERT INTO comments (comment) 
-    VALUES ($1);`;
-    pool.query(sqlText, [comment]).then(function(response){
-        pictures_commentsINSERT(picture_id, comment, user_id);
+    const sqlText = `INSERT INTO comments (comment, user_id) 
+    VALUES ($1, $2);`;
+    pool.query(sqlText, [comment, user_id]).then(function(response){
+        pictures_commentsINSERT(picture_id, user_id);
         res.sendStatus(200)
     }).catch(function(error){
         console.log('PROBLEM IN ROUTER.POST /GALLERY/COMMENT');
@@ -53,17 +53,14 @@ router.post('/comment', (req, res) => {
     }); // END pool.query
 }); // END router /gallery/comment POST
 
-function pictures_commentsINSERT(picture_id, comment, user_id){
+function pictures_commentsINSERT(picture_id, user_id){
     const sqlText = `INSERT INTO pictures_comments (picture_id, comment_id, user_id)
-    VALUES ($1, (SELECT id FROM comments WHERE comment=$2), $3);`;
-    pool.query(sqlText, [picture_id, comment, user_id]).then(function(response){
+    VALUES ($1, (SELECT MAX(id) FROM comments), $2);`;
+    pool.query(sqlText, [picture_id, user_id]).then(function(response){
     }).catch(function(error){
         console.log('PROBLEM IN pictures_commentsINSERT', error);
     }); // END pool.query
 } // END pictures_commentsINSERT
-
-
-
 
 
 module.exports = router;
