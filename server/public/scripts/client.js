@@ -33,30 +33,10 @@ function galleryCtl($http){
             url: '/login/users',
         }).then(function (response) {
             self.usersArray = response.data.rows;
-            console.log(self.usersArray);
         }).catch(function (error) {
             console.log(error);
         }); // END $http
     } // END self.getUsers
-
-    self.getCurrentUser = () => {
-        $http({
-            method: 'GET',
-            url: `/login/current-user`
-        }).then(function (response) {
-            console.log(response);
-            if (response.data.username) {
-                self.currentUser = response.data;
-                console.log('self.currentUser', self.currentUser);
-                self.checkLogin(self.currentUser);
-            } else {
-              
-                // self.checkLogin();
-            }
-        }).catch(function (error) {
-            console.log(error);
-        }); // END $http
-    } // END self.getCurrentUser
 
     self.login = () => {
         if(!self.currentUser.username){
@@ -105,7 +85,6 @@ function galleryCtl($http){
             url: `/gallery/likes/${image.id}`,
             data: { likes: image.up_votes }
         }).then(function (response) {
-            console.log(response);
         }).catch(function (error) {
             console.error(error);
             image.up_votes--;
@@ -124,8 +103,6 @@ function galleryCtl($http){
     } // END self.commentBtnClick
 
     self.showComments = (image) => {
-        console.log(image.allComments);
-        
         if(image.displayComments === false){
             for(let pic of self.imagesArray){
                 pic.displayComments = false;
@@ -137,8 +114,6 @@ function galleryCtl($http){
     } // END self.showComments
 
     self.submitComment = (image) => {
-        console.log(image.newComment);
-
         $http({
             method: 'POST',
             url: '/gallery/comment',
@@ -147,8 +122,6 @@ function galleryCtl($http){
             self.getComments();
             image.newComment = ''; // clear the comment field
             image.commenting = false;
-            console.log(image.allComments);
-            
         }).catch(function (error) {
             console.error(error);
         }); // END $http
@@ -168,8 +141,6 @@ function galleryCtl($http){
                 pic.allComments = [];
                 pic.displayComments = false;
             }
-            console.log(self.imagesArray);
-            
             self.getComments();
         }).catch(function(error){
             console.error(error);            
