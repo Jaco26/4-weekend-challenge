@@ -115,6 +115,17 @@ function galleryCtl($http){
         }
     } // END self.commentBtnClick
 
+    self.showComments = (image) => {
+        if(image.displayComments === false){
+            for(let pic of self.imagesArray){
+                pic.displayComments = false;
+            }
+            image.displayComments = true;
+        } else {
+            image.displayComments = false;
+        }
+    } // END self.showComments
+
     self.submitComment = (image) => {
         console.log(image.newComment);
         $http({
@@ -141,6 +152,7 @@ function galleryCtl($http){
                 pic.commenting = false;
                 pic.newComment = '';
                 pic.allComments = [];
+                pic.displayComments = false;
             }
             console.log(self.imagesArray);
             
@@ -174,8 +186,6 @@ function galleryCtl($http){
     // ON LOAD //
     self.getUsersFromDB();
     self.getImages(); 
-   
-    
      
 } // END galleryCtl
 

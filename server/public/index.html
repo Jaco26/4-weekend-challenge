@@ -46,15 +46,17 @@
                             <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
                             <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
                             <button ng-click="vm.commentBtnClick(image)">Comment</button>
+                            <button ng-click="vm.showComments(image)">Show comments</button>
                             <p>Views {{image.view_count}}</p>
                         </div>
                         
                         <div ng-show="image.commenting">
                             <textarea ng-model="image.newComment" cols="20" rows="1"></textarea>
                             <button ng-click="vm.submitComment(image)">Submit</button>
+                            
                         </div>
                         
-                        <div class="display-comments">
+                        <div ng-show="image.displayComments">
                             <ul class="list-unstyled">
                                 <li ng-repeat="comment in image.allComments">
                                     <strong>{{comment.username}}:</strong> {{comment.comment}}
