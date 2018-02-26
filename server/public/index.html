@@ -41,35 +41,39 @@
                     
                 </nav>
                 <!-- END .row -->
-                <div class="row mt-2">
-                    <div class="col-md-4 " ng-repeat="image in vm.imagesArray">
-                        <figure class="figure">
+                <div class="row mt-4">
+                    <div class="col-md-4 mb-5" ng-repeat="image in vm.imagesArray">
+                        <figure class="figure ">
                             <img ng-src="{{image.url}}" class="figure-img img-fluid rounded" ng-click="vm.imgClick(image)">
                             <figcaption class="figure-caption"><strong>Views:</strong> {{image.view_count}}</figcaption>
                             <figcaption class="figure-caption" ng-show="image.clicked">{{image.synopsis}}</figcaption>
                            
                         </figure>
 
-                        <div class="col-12 p-0">
+                        <div class="col-12 p-0 " ng-hide="image.commenting">
                             <button type="button" class="btn btn-light col-3 p-0 m-0" ng-click="vm.likeClick(image)">
                                 Likes <span class="badge badge-secondary"> {{image.up_votes}}</span>
                             </button>
                             <button class="btn btn-dark col-3 p-0 m-0" ng-click="vm.commentBtnClick(image)">Comment</button>
-                            <button class="btn btn-info col-5 p-0 m-0" ng-click="vm.showComments(image)">Show comments</button>
+                            <button ng-hide="image.displayComments" class="btn btn-info col-5 p-0 m-0" ng-click="vm.showComments(image)">Show comments</button>
+                            <button ng-show="image.displayComments" class="btn btn-secondary col-5 p-0 m-0" ng-click="vm.showComments(image)">Hide comments</button>
                         </div>
                         
-                        <div ng-show="image.commenting">
-                            <textarea ng-model="image.newComment" cols="20" rows="1"></textarea>
-                            <button class="btn btn-primary" ng-click="vm.submitComment(image)">Submit</button>     
-                        </div>
-                        
-                        <div ng-show="image.displayComments">
-                            <ul class="list-unstyled">
-                                <li ng-repeat="comment in image.allComments">
-                                    <strong>{{comment.username}}:</strong> {{comment.comment}}
-                                </li>
-                            </ul>
-                        </div>       
+                        <form class="col-12" ng-show="image.commenting">
+                            <div class="form-group p-0">
+                                <textarea type="text" ng-model="image.newComment" class="col-9 p-0 m-0" rows="1">
+                                </textarea>
+                                <button class="btn btn-primary p-1 m-1 col-3 align-items-center" ng-click="vm.submitComment(image)">Submit</button>
+                                <button class="btn btn-light p-1 m-1 col-3 align-items-center" ng-click="image.commenting = false">Cancel</button>
+                            </div>
+                        </form>
+                            <div ng-show="image.displayComments">
+                                <ul class="list-unstyled col-12 pt-2">
+                                    <li ng-repeat="comment in image.allComments">
+                                        <strong>{{comment.username}}:</strong> {{comment.comment}}
+                                    </li>
+                                </ul>
+                            </div>
                     </div>
                     <!-- END ng-repeat image in vm.imagesArray -->
                 </div>

@@ -121,6 +121,8 @@ function galleryCtl($http){
     } // END self.commentBtnClick
 
     self.showComments = (image) => {
+        console.log(image.allComments);
+        
         if(image.displayComments === false){
             for(let pic of self.imagesArray){
                 pic.displayComments = false;
@@ -133,6 +135,7 @@ function galleryCtl($http){
 
     self.submitComment = (image) => {
         console.log(image.newComment);
+
         $http({
             method: 'POST',
             url: '/gallery/comment',
@@ -140,6 +143,9 @@ function galleryCtl($http){
         }).then(function (response) {
             self.getComments();
             image.newComment = ''; // clear the comment field
+            image.commenting = false;
+            console.log(image.allComments);
+            
         }).catch(function (error) {
             console.error(error);
         }); // END $http
