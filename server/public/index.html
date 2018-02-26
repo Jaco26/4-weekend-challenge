@@ -28,8 +28,9 @@
                     <button class="btn btn-dark" ng-click="vm.login()">Submit</button>
 
                 </section>
-                <!-- END login page -->
-           </div>
+              
+           </div> 
+             <!-- END login page -->
            
            <div ng-show="vm.loggedIn">
                 <nav class="navbar navbar-light bg-dark">
@@ -39,9 +40,9 @@
                 </nav>
                 <!-- END .row -->
                 <div class="row mt-2">
-                    <div class="col-md-4 mr-5" ng-repeat="image in vm.imagesArray">
-                        <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
-                        <div class="col-12 pic-controls">
+                    <div class="col-md-12 mr-5" ng-repeat="image in vm.imagesArray">
+                        <img class="col-6" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
+                        <div class="col-6 pic-controls">
                             <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
                             <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
                             <button ng-click="vm.commentBtnClick(image)">Comment</button>

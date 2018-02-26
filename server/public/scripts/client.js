@@ -9,28 +9,7 @@ function galleryCtl($http){
     // // // // // // // // // // // 
     self.loggedIn = false;
     self.usersArray = []; // populate with sql query to users table
-
     self.currentUser = {};
-
-    // self.getCurrentUser = () => {
-    //     $http({
-    //         method: 'GET',
-    //         url: '/login/current-user'
-    //     }).then(function(response){
-    //         console.log(response);
-    //         if(response.data === 'user not found'){
-    //             console.log('WOWOW');
-    //             self.currentUser = {}
-    //         } else {
-    //             self.currentUser = response.data;
-    //             console.log(self.currentUser);
-    //             self.clientUser = response
-    //             self.checkLogin();
-    //         }
-    //     }).catch(function(error){
-    //         console.log(error);            
-    //     }); // END $http
-    // } // END self.getCurrentUser
 
     self.submitUsername = (username) => {
         $http({
@@ -38,14 +17,14 @@ function galleryCtl($http){
             url: '/login/new-user',
             data: { username: username }
         }).then(function (response) {
-            self.getUsers();
+            self.getUsersFromDB();
         }).catch(function (error) {
             console.log(error);
         }); // END $http
         self.newUsername = '';
     } // END self.submitUsername
 
-    self.getUsers = () => {
+    self.getUsersFromDB = () => {
         $http({
             method: 'GET',
             url: '/login/users',
@@ -57,25 +36,31 @@ function galleryCtl($http){
         }); // END $http
     } // END self.getUsers
 
+    self.getCurrentUser = () => {
+        $http({
+            method: 'GET',
+            url: `/login/current-user`
+        }).then(function (response) {
+            console.log(response);
+            if (response.data.username) {
+                self.currentUser = response.data;
+                console.log('self.currentUser', self.currentUser);
+                self.checkLogin(self.currentUser);
+            } else {
+              
+                // self.checkLogin();
+            }
+        }).catch(function (error) {
+            console.log(error);
+        }); // END $http
+    } // END self.getCurrentUser
+
     self.login = () => {
-        if (self.currentUser.usernameg) {
-            self.loggedIn = true;
-        } else {
-            self.loggedIn = false;
-        }
+        self.loggedIn = true;
     } // END self.login
-
-    self.checkLogin = (currentUser) => {
-        if (currentUser) {
-            self.loggedIn = true;
-        } else {
-            self.loggedIn = false;
-        }
-    }
-
+ 
     self.logout = () => {
-        self.currentUser = {};
-        self.checkLogin(self.currentUser.username);
+        self.loggedIn = false;
     } // END self.logout
 
      // // // // // // // // // // // //
@@ -187,8 +172,7 @@ function galleryCtl($http){
    
      // // // // /
     // ON LOAD //
-    self.getUsers();
-    //self.getCurrentUser();
+    self.getUsersFromDB();
     self.getImages(); 
    
     
