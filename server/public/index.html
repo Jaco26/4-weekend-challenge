@@ -42,15 +42,20 @@
                 </nav>
                 <!-- END .row -->
                 <div class="row mt-2">
-                    <div class="col-md-5 mr-5 mt-5" ng-repeat="image in vm.imagesArray">
-                       
-                        <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
-                        <div class="col-12 pic-controls">
-                            <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
-                            <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
-                            <button class="btn btn-light" ng-click="vm.commentBtnClick(image)">Comment</button>
-                            <button class="btn btn-info" ng-click="vm.showComments(image)">Show comments</button>
-                            <div>Views {{image.view_count}}</div>
+                    <div class="col-md-4 " ng-repeat="image in vm.imagesArray">
+                        <figure class="figure">
+                            <img ng-src="{{image.url}}" class="figure-img img-fluid rounded" ng-click="vm.imgClick(image)">
+                            <figcaption class="figure-caption"><strong>Views:</strong> {{image.view_count}}</figcaption>
+                            <figcaption class="figure-caption" ng-show="image.clicked">{{image.synopsis}}</figcaption>
+                           
+                        </figure>
+
+                        <div class="col-12 p-0">
+                            <button type="button" class="btn btn-light col-3 p-0 m-0" ng-click="vm.likeClick(image)">
+                                Likes <span class="badge badge-secondary"> {{image.up_votes}}</span>
+                            </button>
+                            <button class="btn btn-dark col-3 p-0 m-0" ng-click="vm.commentBtnClick(image)">Comment</button>
+                            <button class="btn btn-info col-5 p-0 m-0" ng-click="vm.showComments(image)">Show comments</button>
                         </div>
                         
                         <div ng-show="image.commenting">
