@@ -42,14 +42,15 @@
                 </nav>
                 <!-- END .row -->
                 <div class="row mt-2">
-                    <div class="col-md-5 mr-5" ng-repeat="image in vm.imagesArray">
-                        <p class="p-1">Views {{image.view_count}}</p>
+                    <div class="col-md-5 mr-5 mt-5" ng-repeat="image in vm.imagesArray">
+                       
                         <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
                         <div class="col-12 pic-controls">
                             <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
                             <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
                             <button class="btn btn-light" ng-click="vm.commentBtnClick(image)">Comment</button>
                             <button class="btn btn-info" ng-click="vm.showComments(image)">Show comments</button>
+                            <div>Views {{image.view_count}}</div>
                         </div>
                         
                         <div ng-show="image.commenting">
