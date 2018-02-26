@@ -18,17 +18,19 @@
            <div ng-show="!vm.loggedIn">
                 <section>
                     <h1>Login</h1>
-                    <label for="username">Add Username</label>
-                    <input type="text" name="username" ng-model="vm.newUsername">
-                    <button class="btn btn-light" ng-click="vm.submitUsername(vm.newUsername)">Log in</button>
-                    <label for="user-select">Who are you?</label>
-                    <select ng-model="vm.currentUser" id="user-select">
-                        <option ng-value="user" ng-repeat="user in vm.usersArray">{{user.username}}</option>
-                    </select>
-                    <button class="btn btn-dark" ng-click="vm.login()">Submit</button>
-
+                    <div class="row">
+                        <label class="mr-2" for="username">Add Username</label>
+                        <input class="mr-2" type="text" name="username" ng-model="vm.newUsername">
+                        <button class="btn btn-light" ng-click="vm.submitUsername(vm.newUsername)">Create Username</button>
+                    </div>
+                    <div class="row mt-4">
+                        <label class="mr-2" for="user-select">Who are you?</label>
+                        <select class="mr-2" ng-model="vm.currentUser" id="user-select">
+                            <option ng-value="user" ng-repeat="user in vm.usersArray">{{user.username}}</option>
+                        </select>
+                        <button class="btn btn-dark" ng-click="vm.login()">Submit</button>
+                    </div>
                 </section>
-              
            </div> 
              <!-- END login page -->
            
@@ -40,20 +42,19 @@
                 </nav>
                 <!-- END .row -->
                 <div class="row mt-2">
-                    <div class="col-md-12 mr-5" ng-repeat="image in vm.imagesArray">
-                        <img class="col-6" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
-                        <div class="col-6 pic-controls">
+                    <div class="col-md-5 mr-5" ng-repeat="image in vm.imagesArray">
+                        <p class="p-1">Views {{image.view_count}}</p>
+                        <img class="col-12" ng-click="vm.imgClick(image)" ng-src="{{image.url}}">
+                        <div class="col-12 pic-controls">
                             <p class="col-9" ng-show="image.clicked">{{image.synopsis}}</p>
                             <button ng-click="vm.likeClick(image)">+ {{image.up_votes}}</button>
-                            <button ng-click="vm.commentBtnClick(image)">Comment</button>
-                            <button ng-click="vm.showComments(image)">Show comments</button>
-                            <p>Views {{image.view_count}}</p>
+                            <button class="btn btn-light" ng-click="vm.commentBtnClick(image)">Comment</button>
+                            <button class="btn btn-info" ng-click="vm.showComments(image)">Show comments</button>
                         </div>
                         
                         <div ng-show="image.commenting">
                             <textarea ng-model="image.newComment" cols="20" rows="1"></textarea>
-                            <button ng-click="vm.submitComment(image)">Submit</button>
-                            
+                            <button class="btn btn-primary" ng-click="vm.submitComment(image)">Submit</button>     
                         </div>
                         
                         <div ng-show="image.displayComments">

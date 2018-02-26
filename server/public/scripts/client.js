@@ -56,7 +56,12 @@ function galleryCtl($http){
     } // END self.getCurrentUser
 
     self.login = () => {
-        self.loggedIn = true;
+        if(!self.currentUser.username){
+            alert('Who are you??')
+        } else {
+            self.loggedIn = true;
+        }
+      
     } // END self.login
  
     self.logout = () => {
