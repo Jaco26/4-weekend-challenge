@@ -15,16 +15,22 @@ function galleryCtl($http){
   
 
     self.submitUsername = (username) => {
-        $http({
-            method: 'POST',
-            url: '/login/new-user',
-            data: { username: username }
-        }).then(function (response) {
-            self.getUsersFromDB();
-        }).catch(function (error) {
-            console.log(error);
-        }); // END $http
-        self.newUsername = '';
+        if(!username){
+            alert('Whoa! Who are you??')
+        } else {
+            $http({
+                method: 'POST',
+                url: '/login/new-user',
+                data: { username: username }
+            }).then(function (response) {
+                self.getUsersFromDB();
+                self.addingUser = false;
+            }).catch(function (error) {
+                console.log(error);
+            }); // END $http
+            self.newUsername = '';
+        }
+        
     } // END self.submitUsername
 
     self.getUsersFromDB = () => {
