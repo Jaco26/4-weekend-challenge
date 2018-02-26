@@ -10,6 +10,9 @@ function galleryCtl($http){
     self.loggedIn = false;
     self.usersArray = []; // populate with sql query to users table
     self.currentUser = {};
+    self.addingUser = false;
+
+  
 
     self.submitUsername = (username) => {
         $http({
